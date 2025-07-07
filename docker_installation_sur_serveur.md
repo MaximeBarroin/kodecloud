@@ -1,101 +1,82 @@
-Install docker-ce and docker compose packages on App Server 2.
+https://github.com/janaom/KodeKloud-Engineer-2.0/blob/main/Docker_1/1_Install_Docker_Package.md
 
-
-
-
+   I want to ssh stapp02	172.16.238.11	stapp02.stratos.xfusioncorp.com	steve	Am3ric@	Nautilus App 2
+stapp01	172.16.238.10	stapp01.stratos.xfusioncorp.com	tony	Ir0nM@n	Nautilus App 1
 ```bash
-sudo apt-get update
-sudo apt-get install -y docker-ce docker-compose
+ssh  steve@172.16.238.11
+ puis taper le mot de passe
+```
+ ensuite super admin 
+```bash
+sudo su -
 ```
 
-apt-get command is not found
-If the `apt-get` command is not found, it indicates that the system is not using a Debian-based distribution (like Ubuntu). In such cases, you may need to use the package manager specific to your distribution. For example, if you are using a Red Hat-based distribution, you would use `yum` or `dnf`.
+puis on prend le repo docker compose 
+curl -L "https://github.com/docker/compose/releases/download/1.28.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+ls -la /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+ls -la /usr/local/bin/docker-compose
+
+
+
+[5044] Error loading Python lib '/tmp/_MEI2QGfVl/libpython3.7m.so.1.0': dlopen: libcrypt.so.1: cannot open shared object file: No such file or directory
+```bash
+docker-compose --version
+```
+If you encounter the error `Error loading Python lib '/tmp/_MEI2QGfVl/libpython3.7m.so.1.0': dlopen: libcrypt.so.1: cannot open shared object file: No such file or directory`, it indicates that the required library `libcrypt.so.1` is missing from your system.
+To resolve this issue, you can try the following steps:
+1. **Install the missing library**: You can install the `libcrypt` library using the package manager for your distribution. For example, on Ubuntu or Debian-based systems, you can use:
 
 ```bash
-sudo yum update
-sudo yum install -y docker-ce docker-compose
-```
-
-Unable to find a match: docker-ce docker-compose
-If you encounter the error `Unable to find a match: docker-ce docker-compose`, it means that the Docker packages are not available in your current repository. You may need to set up the Docker repository first. Here’s how you can do it:
-1. **Set up the Docker repository**:
-   For Ubuntu or Debian-based systems, you can follow these steps:
-
-   ```bash
-   sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
-   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-   sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-   ```
-
-   For Red Hat-based systems, you can use:
-
-   ```bash
-   sudo yum install -y yum-utils
-   sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-   ```
-2. **Update the package index**:
-    After adding the Docker repository, update the package index again:
-    
-    ```bash
-    sudo apt-get update
-    ```
-    
-    or for Red Hat-based systems:
-    
-    ```bash
-    sudo yum makecache fast
-    ```
-3. **Install Docker**:
-   Now you can try installing Docker again:
-    For Ubuntu or Debian-based systems:
-    
-    ```bash
-    sudo apt-get install -y docker-ce docker-compose
-    ```
-    For Red Hat-based systems:
-    
-    ```bash
-    sudo yum install -y docker-ce docker-compose
-    ```
-
- 
-Initiate the docker service.
-
-```bash
-sudo systemctl start docker
-sudo systemctl enable docker
+sudo dnf install libxcrypt-compat
 
 
-Failed to start docker.service: Unit docker.service not found.
+sudo yum config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 
-```
-If you encounter the error `Failed to start docker.service: Unit docker.service not found`, it indicates that Docker is not installed correctly or the service file is missing. You can try reinstalling Docker or checking if the installation was successful.
-If you are using a different package manager, such as `yum` or `dnf`, the commands to start and enable Docker might differ slightly. For example, on a Red Hat-based system, you would use:
-
-```bash
-sudo systemctl start docker
-sudo systemctl enable docker
-```
-If you are still facing issues, you can check the status of the Docker service to get more information about the error:
-
-```bash
-sudo systemctl status docker
-```
-
-Unit docker.service could not be found.
-
-If you see the error `Unit docker.service could not be found`, it means that the Docker service is not installed or not recognized by the system. Here are some steps to troubleshoot and resolve this issue:
-
-1. **Check Docker Installation**: Ensure that Docker is installed correctly. You can verify this by running:
-
-   ```bash
-   docker --version
-   ```
-
-   If Docker is not installed, you will need to install it.
-
-   bash: docker: command not found
-
-2. **Install Docker**: If Docker is not installed, you can install it using the appropriate package manager for your distribution. For example, on Ubuntu or Debian-based systems, you can use:
+yum install docker-ce docker-ce-cli containerd.io
 
 
+rpm -qa |grep docker
+
+systemctl enable docker
+
+
+systemctl start docker
+
+systemctl status docker
+
+
+docker --version
+
+docker ps (to check if docker is running)
+
+docker-compose --version
+
+
+Voici une brève synthèse des actions décrites dans ce document markdown pour l'installation de Docker :
+
+Synthèse de l'installation Docker
+1. Connexion au serveur
+SSH vers le serveur stapp02 (172.16.238.11) avec l'utilisateur steve
+Passage en mode super administrateur avec sudo su -
+2. Installation de Docker Compose
+Téléchargement de Docker Compose v1.28.6 depuis GitHub
+Placement du binaire dans /usr/local/bin/
+Attribution des permissions d'exécution
+3. Résolution d'erreur
+Correction de l'erreur libcrypt.so.1 manquante
+Installation de libxcrypt-compat avec dnf
+4. Installation de Docker Engine
+Ajout du repository Docker officiel CentOS
+Installation des packages : docker-ce, docker-ce-cli, containerd.io
+Vérification de l'installation avec rpm -qa
+5. Configuration et démarrage
+Activation du service Docker au démarrage (systemctl enable)
+Démarrage du service Docker (systemctl start)
+Vérification du statut et des versions
+6. Tests de validation
+Vérification des versions Docker et Docker Compose
+Test de fonctionnement avec docker ps
+Ce document couvre une installation complète de Docker sur un système CentOS/RHEL avec résolution des problèmes de dépendances.
