@@ -276,7 +276,7 @@ The Nginx and PHP-FPM setup on the Kubernetes cluster was non-functional due to 
 ### Final Configuration
 - ✅ **Port Fix**: Nginx now listens on standard port 80
 - ✅ **File Deployment**: index.php copied to both containers
-- ✅ **Volume Mount**: Shared volume ensures file accessibility across containers
+- ✅ **Volume Mount**: Sha  
 
 ### Key Learning Points
 1. **Multi-container Pods**: Always specify container name with `-c` flag for file operations
